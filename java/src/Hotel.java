@@ -423,7 +423,40 @@ public class Hotel {
    public static void viewRooms(Hotel esql) {}
    public static void bookRooms(Hotel esql) {}
    public static void viewRecentBookingsfromCustomer(Hotel esql) {}
-   public static void updateRoomInfo(Hotel esql) {}
+   public static void updateRoomInfo(Hotel esql, String authorisedUser) {
+    	try{
+         String query = String.format("SELECT * FROM USERS WHERE userID = '%s' AND userType = 'manager'", authorisedUser);
+         int userNum = esql.executeQuery(query);
+         
+         if (userNum == 0){
+			System.out.println("\tYou are not a Manager.");
+			return;
+		}// If manager, continue
+		
+		 System.out.print("\tEnter hotel ID: ");
+         String hotelID = in.readLine();
+         
+         query = String.format("SELECT * FROM Hotel WHERE hotelID = '%s' AND managerUserID = '%s'", hotelID, authorisedUser);
+         userNum = esql.executeQuery(query);
+         if (userNum == 0){
+			System.out.println("\tYou don't manage this Hotel.");
+			return;
+		}//If manager, continue
+         
+         System.out.print("\tEnter room number: ");
+         String roomNum = in.readLine();
+         
+         System.out.println("UPDATE ROOM");
+         System.out.println("---------");
+         System.out.println("1. Price");
+         System.out.println("2. Log in");
+         System.out.println("9. < EXIT");
+         
+		
+      }catch(Exception e){
+         System.err.println (e.getMessage ());
+      }
+    }
    public static void viewRecentUpdates(Hotel esql) {}
    public static void viewBookingHistoryofHotel(Hotel esql) {}
    public static void viewRegularCustomers(Hotel esql) {}
